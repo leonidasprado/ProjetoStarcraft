@@ -6,7 +6,7 @@ from sc2 import maps
 from sc2.ids.unit_typeid import UnitTypeId
 import random
 
- #this bot is for protoss. Works vs zerg and protoss. New version is working agains terrans (harder to win)
+#this bot is for protoss. Works vs zerg and protoss. New version is working agains terrans (harder to win)
 class RobotBot(BotAI):
     async def on_step(self, iteration:int):
         print(f"{iteration}, n_workers: {self.workers.amount}, n_idle_workers: {self.workers.idle.amount},", \
@@ -18,11 +18,11 @@ class RobotBot(BotAI):
         
         await self.distribute_workers()
         
-	#starts checking if a townhall exists
+        #starts checking if a townhall exists
         if self.townhalls:
             nexus = self.townhalls.random
             
-	    #the attack unit is voidray
+            #the attack unit is voidray
             if self.structures(UnitTypeId.VOIDRAY).amount<15 and self.can_afford(UnitTypeId.VOIDRAY):
                 for sg in self.structures(UnitTypeId.STARGATE).ready.idle:
                     sg.train(UnitTypeId.VOIDRAY)
@@ -34,21 +34,21 @@ class RobotBot(BotAI):
                 if self.can_afford(UnitTypeId.PYLON):
                     await self.build(UnitTypeId.PYLON, near=nexus)
             
-	    #we need pylons for supply
+            #we need pylons for supply
             elif self.structures(UnitTypeId.PYLON).amount<5:
                 if self.can_afford(UnitTypeId.PYLON) and self.already_pending(UnitTypeId.PYLON) == 0:
                     target_pylon = self.structures(UnitTypeId.PYLON).closest_to(self.enemy_start_locations[0])
                     pos = target_pylon.position.towards(self.enemy_start_locations[0], random.randrange(1,3))
                     await self.build(UnitTypeId.PYLON, near=pos)
             
-	    #assimilator for vespene gas, needed for voidrays
+            #assimilator for vespene gas, needed for voidrays
             elif self.structures(UnitTypeId.ASSIMILATOR).amount <=1:
                 vespenes = self.vespene_geyser.closer_than(15, nexus)
                 for vespene in vespenes:
                     if self.can_afford(UnitTypeId.ASSIMILATOR) and not self.already_pending(UnitTypeId.ASSIMILATOR):
                         await self.build(UnitTypeId.ASSIMILATOR,vespene)
             
-	    #forge is needed for photon cannon, our defense unit
+            #forge is needed for photon cannon, our defense unit
             elif not self.structures(UnitTypeId.FORGE):
                 if self.can_afford(UnitTypeId.FORGE) and not self.already_pending(UnitTypeId.FORGE):
                     await self.build(UnitTypeId.FORGE, near=self.structures(UnitTypeId.PYLON).closest_to(nexus))
