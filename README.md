@@ -1,0 +1,2 @@
+# ProjetoStarcraft
+starcraft bot
