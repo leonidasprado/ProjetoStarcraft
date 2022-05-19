@@ -6,7 +6,7 @@ from sc2 import maps
 from sc2.ids.unit_typeid import UnitTypeId
 import random
 
-#this bot is for protoss. Works vs zerg and protoss. New version is working agains terrans (harder to win)
+ #this bot is for protoss. Works vs zerg and protoss. New version is working agains terrans (harder to win)
 class RobotBot(BotAI):
     async def on_step(self, iteration:int):
         print(f"{iteration}, n_workers: {self.workers.amount}, n_idle_workers: {self.workers.idle.amount},", \
